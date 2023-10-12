@@ -65,7 +65,9 @@ def read_item(lat: float, lon: float):
     p_choosed = temp.pop(choice)
     if price == p_choosed["price"]:
         p_choosed["price_match"] = True
-        p_choosed["choice"] = True
+    else:
+        p_choosed["price_match"] = False
+    p_choosed["choice"] = True
 
     temp["choice"] = p_choosed
 
