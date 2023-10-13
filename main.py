@@ -103,7 +103,7 @@ def read_item(lat: float, lon: float):
             p_choosed["price_match"] = False
         p_choosed["choice"] = True
 
-        temp["choice"] = p_choosed
+    ret = {"choice":p_choosed, "others":temp}
 
     return temp
     
