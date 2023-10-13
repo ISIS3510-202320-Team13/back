@@ -76,28 +76,27 @@ def read_item(lat: float, lon: float):
     rate = -1
     price = 0
     ret = {}
-    temp = {}
 
-    if len(docs) != 0:
-        for doc in docs:
-            docdic = doc.to_dict()
+    for doc in docs:
+        docdic = doc.to_dict()
 
-            dist = haversine((lat, lon), (float(docdic["coordinates"].latitude), float(docdic["coordinates"].longitude)), unit=Unit.METERS)
-            t_price = docdic["price"]
-            t_rate = docdic["rating"]*t_price
-            
-
-            if (rate == -1) or (rate > (t_rate)):
-                rate = t_rate
-                price = t_price
-                choice = doc.id
-
-            if dist <= 500:
-                docdic["distance"] = round(dist, 2)
-                docdic["choice"] = False
-                ret[doc.id] = docdic
+        dist = haversine((lat, lon), (float(docdic["coordinates"].latitude), float(docdic["coordinates"].longitude)), unit=Unit.METERS)
+        t_price = docdic["price"]
+        t_rate = docdic["rating"]*t_price
         
-        temp = ret.copy()
+
+        if (rate == -1) or (rate > (t_rate)):
+            rate = t_rate
+            price = t_price
+            choice = doc.id
+
+        if dist <= 500:
+            docdic["distance"] = round(dist, 2)
+            docdic["choice"] = False
+            ret[doc.id] = docdic
+    
+    temp = ret.copy()
+    if choice in temp:
         p_choosed = temp.pop(choice)
         if price == p_choosed["price"]:
             p_choosed["price_match"] = True
