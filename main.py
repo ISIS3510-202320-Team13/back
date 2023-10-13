@@ -105,5 +105,5 @@ def read_item(lat: float, lon: float):
 
     ret = {"choice":p_choosed, "others":temp}
 
-    return temp
+    return ret
     
