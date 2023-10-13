@@ -32,29 +32,32 @@ def read_userInfoByUID(uid: str):
 
     doc_ref = db.collection('users').document(uid)
     doc = doc_ref.get()
+    docdic_user = doc.to_dict()
 
-    user = {'name':doc.to_dict()['name']}
-    reservations = doc.to_dict()["Reservations"]
+    user = {'name':docdic_user['name']}
 
-    res_in_dict = {}
+    if "Reservations" in docdic_user:
+        reservations = docdic_user["Reservations"]
 
-    for reservation in reservations:
-        doc_ref = db.collection('reservations').document(reservation)
-        doc = doc_ref.get()
+        res_in_dict = {}
 
-        docdic = doc.to_dict()
-        docdic.pop('user')
+        for reservation in reservations:
+            doc_ref = db.collection('reservations').document(reservation)
+            doc = doc_ref.get()
 
-        parking_id = docdic.pop('parking')
-        doc_ref_p = db.collection('parkings').document(parking_id)
-        doc_p = doc_ref_p.get()
+            docdic = doc.to_dict()
+            docdic.pop('user')
 
-        docdic_p = doc_p.to_dict()
-        docdic["parking"] = docdic_p
+            parking_id = docdic.pop('parking')
+            doc_ref_p = db.collection('parkings').document(parking_id)
+            doc_p = doc_ref_p.get()
+
+            docdic_p = doc_p.to_dict()
+            docdic["parking"] = docdic_p
+
+            res_in_dict[doc.id] = docdic
         
-        res_in_dict[doc.id] = docdic
-    
-    user['reservations'] = res_in_dict
+        user['reservations'] = res_in_dict
 
     return user
 
