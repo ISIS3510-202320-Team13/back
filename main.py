@@ -83,14 +83,13 @@ def read_item(lat: float, lon: float):
         dist = haversine((lat, lon), (float(docdic["coordinates"].latitude), float(docdic["coordinates"].longitude)), unit=Unit.METERS)
         t_price = docdic["price"]
         t_rate = docdic["rating"]*t_price
-        
-
-        if (rate == -1) or (rate > (t_rate)):
-            rate = t_rate
-            price = t_price
-            choice = doc.id
 
         if dist <= 500:
+            if (rate == -1) or (rate > (t_rate)):
+                rate = t_rate
+                price = t_price
+                choice = doc.id
+
             docdic["distance"] = round(dist, 2)
             docdic["choice"] = False
             ret[doc.id] = docdic
