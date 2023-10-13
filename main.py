@@ -15,17 +15,10 @@ db = firestore.client()
 geolocator = Nominatim(user_agent="ParkEz-API")
 
 app = FastAPI()
-
-@app.get("/parkings/all")
+@app.get("/")
 def read_root():
-    users_ref = db.collection("parkings")
-    docs = users_ref.stream()
-    
-    ret = {}
-    for doc in docs:
-        ret[doc.id] = doc.to_dict()
-
-    return ret
+    return {"Available routes": {"userInfoByUID": "/users/{uid}", "address_bylatlon": "/address/bylatlon/{lat}/{lon}", 
+                                 "reservations": "/reservations/all", "parkings": "/reservations/all", "parkings_bylatlon": "/parkings/near/bylatlon/{lat}/{lon}"}}
 
 @app.get("/users/{uid}")
 def read_userInfoByUID(uid: str):
@@ -62,12 +55,44 @@ def read_userInfoByUID(uid: str):
     return user
 
 @app.get("/address/bylatlon/{lat}/{lon}")
-def read_item(lat: str, lon: str):
+def read_address_bylatlon(lat: str, lon: str):
     location = geolocator.reverse(lat+","+lon).raw['address']
     return {"loc": location}
+
+@app.get("/reservations/all")
+def read_reservations():
+    users_ref = db.collection("reservations")
+    docs = users_ref.stream()
     
+    ret = {}
+    for doc in docs:
+        docdic = doc.to_dict()
+
+        docdic.pop('user')
+        parking_id = docdic.pop('parking')
+        doc_ref_p = db.collection('parkings').document(parking_id)
+        doc_p = doc_ref_p.get()
+
+        docdic_p = doc_p.to_dict()
+        docdic["parking"] = docdic_p
+
+        ret[doc.id] = docdic
+
+    return ret
+
+@app.get("/parkings/all")
+def read_parkings():
+    users_ref = db.collection("parkings")
+    docs = users_ref.stream()
+    
+    ret = {}
+    for doc in docs:
+        ret[doc.id] = doc.to_dict()
+
+    return ret 
+
 @app.get("/parkings/near/bylatlon/{lat}/{lon}")
-def read_item(lat: float, lon: float):
+def read_parkings_bylatlon(lat: float, lon: float):
     
     users_ref = db.collection("parkings")
     docs = users_ref.stream()
