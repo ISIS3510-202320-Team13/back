@@ -27,6 +27,37 @@ def read_root():
 
     return ret
 
+@app.get("/users/{uid}")
+def read_userInfoByUID(uid: str):
+
+    doc_ref = db.collection('users').document(uid)
+    doc = doc_ref.get()
+
+    user = {'name':doc.to_dict()['name']}
+    reservations = doc.to_dict()["Reservations"]
+
+    res_in_dict = {}
+
+    for reservation in reservations:
+        doc_ref = db.collection('reservations').document(reservation)
+        doc = doc_ref.get()
+
+        docdic = doc.to_dict()
+        docdic.pop('user')
+
+        parking_id = docdic.pop('parking')
+        doc_ref_p = db.collection('parkings').document(parking_id)
+        doc_p = doc_ref_p.get()
+
+        docdic_p = doc_p.to_dict()
+        docdic["parking"] = docdic_p
+        
+        res_in_dict[doc.id] = docdic
+    
+    user['reservations'] = res_in_dict
+
+    return user
+
 @app.get("/address/bylatlon/{lat}/{lon}")
 def read_item(lat: str, lon: str):
     location = geolocator.reverse(lat+","+lon).raw['address']
