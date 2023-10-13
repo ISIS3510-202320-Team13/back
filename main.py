@@ -34,7 +34,7 @@ def read_userInfoByUID(uid: str):
     doc = doc_ref.get()
     docdic_user = doc.to_dict()
 
-    user = {'name':docdic_user['name']}
+    user = {'name':docdic_user['name'], 'picture': docdic_user['picture']}
 
     if "Reservations" in docdic_user:
         reservations = docdic_user["Reservations"]
