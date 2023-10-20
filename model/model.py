@@ -21,6 +21,25 @@ def get_document(collection:str, uid:str) -> dict:
     if collection not in collection_list:
         raise Exception("Collection do not exists")
     user_dict = parse_document(firebase.get_document(collection, uid))
+    if user_dict is None:
+        raise Exception("Document do not exists")
+    return user_dict
+
+def get_documents_filtered(collection:str, atribute:str, comparison:str, value:str, type:str):
+    if collection not in collection_list:
+        raise Exception("Collection do not exists")
+    
+    if comparison == "equals":
+        comparison = "=="
+    elif comparison == "different":
+        comparison = "!="
+        
+    if type == "int":
+        value = int(value)
+
+    user_dict = parse_collection(firebase.get_documents_filtered(collection, atribute, comparison, value))
+    if user_dict is None:
+        raise Exception(f"There is no documents with {atribute} {comparison} {value}")
     return user_dict
 
 def parse_collection(docs) -> dict:

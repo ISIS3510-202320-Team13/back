@@ -17,6 +17,6 @@ def get_document(colection:str, uid:str):
     doc = doc_ref.get()
     return doc
 
-def get_documents_filtered(colection:str, atribute:str, compare:str, value):
-    docs = db.collection(colection).where(filter=FieldFilter(atribute, compare, value)).stream()
+def get_documents_filtered(collection:str, atribute:str, compare:str, value):
+    docs = db.collection(collection).where(filter=FieldFilter(atribute, compare, value)).stream()
     return docs
