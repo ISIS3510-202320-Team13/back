@@ -1,4 +1,4 @@
-import firebase_connection as firebase
+from model import firebase_connection as firebase
 
 from haversine import haversine, Unit
 from geopy.geocoders import Nominatim
