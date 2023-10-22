@@ -17,6 +17,15 @@ def get_document(colection:str, uid:str):
     doc = doc_ref.get()
     return doc
 
-def get_documents_filtered(colection:str, atribute:str, compare:str, value):
-    docs = db.collection(colection).where(filter=FieldFilter(atribute, compare, value)).stream()
+def get_documents_filtered(collection:str, atribute:str, compare:str, value):
+    docs = db.collection(collection).where(filter=FieldFilter(atribute, compare, value)).stream()
     return docs
+
+def add_document(colection:str, new_document:dict):
+    uid = new_document.pop('uid')
+    db.collection(colection).document(uid).set(new_document)
+    return True
+
+def update_document(colection:str, uid:str, updated_document:dict):
+    db.collection(colection).document(uid).set(updated_document)
+    return True

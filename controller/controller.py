@@ -1,11 +1,13 @@
-from model import model 
+from model import model, parking
 from dto import dto as format
 
-def get_all_parkings() -> dict:
-    return model.get_collection('parkings')
+# ------------------------------------ Reservations ------------------------------------
 
-def get_all_reservations() -> dict:
-    reservations = model.get_collection('reservations')
+def get_all_reservations(external = None) -> dict:
+    if external is None:
+        reservations = model.get_collection('reservations')
+    else:
+        reservations = external
 
     ret_dict = {}
     for reservation in reservations:
@@ -33,6 +35,8 @@ def get_reservation_by_uid(uid:str) -> dict:
 
     return new_reservation
 
+# ------------------------------------ Users ------------------------------------
+
 def get_user_by_uid(uid:str) -> dict:
 
     user = model.get_document('users', uid)
@@ -44,6 +48,16 @@ def get_user_by_uid(uid:str) -> dict:
         new_user = user
     
     return new_user
+
+# ------------------------------------ Parkings ------------------------------------
+
+def create_parking(parking_p:dict):
+    new_parking = parking.Parking(parking_p["availabilityCars"], parking_p["availabilityMotorcycle"], parking_p["coordinates"], parking_p["direccion"], parking_p["price"], parking_p["rating"])
+    model.add_document('parkings', new_parking.to_dict())
+    return None
+
+def get_all_parkings() -> dict:
+    return model.get_collection('parkings')
 
 def get_parkings_by_latlon(lat: float, lon: float):
     docs = model.get_collection('parkings')
@@ -82,7 +96,22 @@ def get_parkings_by_latlon(lat: float, lon: float):
     ret = {"choice":p_choosed, "others":temp}
 
     return None
-    
+
+# ------------------------------------ Utils ------------------------------------
+def get_raw_collection(collection: str):
+    return model.get_collection(collection)
+
+def get_raw_document(collection: str, uid:str):
+    return model.get_document(collection, uid)
+
+def get_custom_query(collection:str, atribute:str, comparison:str, value:str, type:str, format:str):
+    filtered = model.get_documents_filtered(collection, atribute, comparison, value, type)
+
+    if format == "reservations":
+        filtered = get_all_reservations(filtered)
+
+    return filtered
+
 def get_address_by_latlon(lat: str, lon: str):
     return model.get_address_by_latlon(lat, lon)
     
