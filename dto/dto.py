@@ -13,4 +13,4 @@ def dto_reservation(raw_reservation:dict, raw_parking:dict, user_includes:bool, 
         
     raw_reservation["parking"] = raw_parking
 
-    return raw_parking
+    return raw_reservation

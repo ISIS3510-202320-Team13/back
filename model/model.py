@@ -11,6 +11,10 @@ collection_list = [
     'parkings'
 ]
 
+def add_document(collection:str, new_document:dict):
+    firebase.add_document(collection, new_document)
+    return None
+
 def get_collection(collection:str) -> dict:
     if collection not in collection_list:
         raise Exception("Collection do not exists")
@@ -33,9 +37,13 @@ def get_documents_filtered(collection:str, atribute:str, comparison:str, value:s
         comparison = "=="
     elif comparison == "different":
         comparison = "!="
-        
+
     if type == "int":
         value = int(value)
+    elif type == "float":
+        value = float(value)
+    elif type == "bool":
+        value = bool(value)
 
     user_dict = parse_collection(firebase.get_documents_filtered(collection, atribute, comparison, value))
     if user_dict is None:
