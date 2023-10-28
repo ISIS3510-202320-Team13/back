@@ -7,3 +7,5 @@ class Parking(BaseModel):
     availabilityMotorcycle: int
     price: int
     rating: float
+    name:str
+    uid:str | None  = None
