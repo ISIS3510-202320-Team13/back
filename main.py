@@ -53,7 +53,7 @@ def read_root(api_key: str = Security(get_api_key)):
         }
     return routes
 # ------------------------------------ Users ------------------------------------
-@app.post("/users", tags=["Reservations"])
+@app.post("/users", tags=["Users"])
 async def post_reservation(user: r.Usuarios, api_key: str = Security(get_api_key)):
     """
     This function will allow you to create and store a new user in the database
@@ -169,7 +169,7 @@ async def post_parking(parking: r.Parking, api_key: str = Security(get_api_key))
         raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'parkings' --- {e}")
     return {}
 
-@app.put("/parkings", tags=["Reservations"])
+@app.put("/parkings", tags=["Parkings"])
 async def put_parking(parking: r.Parking_update, api_key: str = Security(get_api_key)):
     """
     This function will allow you to update a parking in the database
