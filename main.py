@@ -66,7 +66,7 @@ async def post_reservation(user: r.Usuarios, api_key: str = Security(get_api_key
     try:
         controller.create_user(user.model_dump())
     except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'parkings' --- {e}")
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'users' --- {e}")
     return {}
 
 @app.put("/users", tags=["Users"])
@@ -82,7 +82,7 @@ async def put_reservation(user: r.Usuarios_update, api_key: str = Security(get_a
     try:
         controller.update_user(user.model_dump())
     except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'parkings' --- {e}")
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'users' --- {e}")
     return {}
 
 @app.get("/users/{uid}", tags=["Users"])
@@ -120,7 +120,7 @@ async def post_reservation(reservation: r.Reservation, api_key: str = Security(g
     try:
         controller.create_reservation(reservation.model_dump())
     except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'parkings' --- {e}")
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'reservations' --- {e}")
     return {}
 
 @app.put("/reservations", tags=["Reservations"])
@@ -136,7 +136,7 @@ async def put_reservation(reservation: r.Reservation_update, api_key: str = Secu
     try:
         controller.update_reservation(reservation.model_dump())
     except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'parkings' --- {e}")
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'reservations' --- {e}")
     return {}
 
 @app.get("/reservations/all", tags=["Reservations"])
