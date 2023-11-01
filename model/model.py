@@ -16,10 +16,18 @@ collection_list = [
 # ------------------------------------ CRUD METHODS  ------------------------------------
 
 def add_document(collection:str, new_document:dict):
+    if collection not in collection_list:
+        raise Exception("Collection do not exists")
     if collection == 'parkings':
         new_document = validate_parkings(new_document)
-        print(new_document)
+    elif collection == 'reservations':
+        #new_document = validate_parkings(new_document)
+        pass
     firebase.add_document(collection, new_document)
+    return None
+
+def update_document(collection:str, new_document:dict):
+    firebase.update_document(collection, new_document)
     return None
 
 def get_collection(collection:str) -> dict:

@@ -4,6 +4,14 @@ from utils import choice
 
 # ------------------------------------ Reservations ------------------------------------
 
+def create_reservation(reservation_p:dict):
+    model.add_document('reservations', reservation_p)
+    return None
+
+def update_reservation(reservation_p:dict):
+    model.update_document('reservations', reservation_p)
+    return None
+
 def get_all_reservations(external = None) -> dict:
     if external is None:
         reservations = model.get_collection('reservations')
@@ -38,6 +46,14 @@ def get_reservation_by_uid(uid:str) -> dict:
 
 # ------------------------------------ Users ------------------------------------
 
+def create_user(user_p:dict):
+    model.add_document('users', user_p)
+    return None
+
+def update_user(user_p:dict):
+    model.update_document('users', user_p)
+    return None
+
 def get_user_by_uid(uid:str) -> dict:
 
     user = model.get_document('users', uid)
@@ -53,8 +69,11 @@ def get_user_by_uid(uid:str) -> dict:
 # ------------------------------------ Parkings ------------------------------------
 
 def create_parking(parking_p:dict):
-    #new_parking = parking.Parking(parking_p["availabilityCars"], parking_p["availabilityMotorcycle"], parking_p["coordinates"], parking_p["direccion"], parking_p["price"], parking_p["rating"])
     model.add_document('parkings', parking_p)
+    return None
+
+def update_parking(parking_p:dict):
+    model.update_document('parkings', parking_p)
     return None
 
 def get_all_parkings() -> dict:

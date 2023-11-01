@@ -1,6 +1,6 @@
 
 def dto_user(raw_user, raw_reservations) -> dict:
-    raw_user.pop('Reservations')
+    raw_user.pop('reservations')
     raw_user['reservations'] = raw_reservations
     return raw_user
 

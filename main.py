@@ -4,9 +4,9 @@ from utils import tags
 from fastapi import FastAPI, HTTPException, Security
 from fastapi.security import APIKeyHeader
 
-api_keys = [
-    "my_api_key"
-]
+import api_keys as keys
+
+api_keys = keys.api_keys
 
 api_key_header = APIKeyHeader(name="X-API-Key")
 
@@ -53,6 +53,38 @@ def read_root(api_key: str = Security(get_api_key)):
         }
     return routes
 # ------------------------------------ Users ------------------------------------
+@app.post("/users", tags=["Reservations"])
+async def post_reservation(user: r.Usuarios, api_key: str = Security(get_api_key)):
+    """
+    This function will allow you to create and store a new user in the database
+
+    Parameters
+    ----------
+    Body : (JSON) It's a JSON with the atributes of a user. 
+
+    """
+    try:
+        controller.create_user(user.model_dump())
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'users' --- {e}")
+    return {}
+
+@app.put("/users", tags=["Users"])
+async def put_reservation(user: r.Usuarios_update, api_key: str = Security(get_api_key)):
+    """
+    This function will allow you to update an user in the database
+
+    Parameters
+    ----------
+    Body : (JSON) It's a JSON with the atributes of a user. 
+
+    """
+    try:
+        controller.update_user(user.model_dump())
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'users' --- {e}")
+    return {}
+
 @app.get("/users/{uid}", tags=["Users"])
 async def get_user_by_uid(uid: str, api_key: str = Security(get_api_key)):
     """
@@ -75,6 +107,38 @@ async def get_user_by_uid(uid: str, api_key: str = Security(get_api_key)):
     return response
 
 # ------------------------------------ Reservations ------------------------------------
+@app.post("/reservations", tags=["Reservations"])
+async def post_reservation(reservation: r.Reservation, api_key: str = Security(get_api_key)):
+    """
+    This function will allow you to create and store a new reservation in the database
+
+    Parameters
+    ----------
+    Body : (JSON) It's a JSON with the atributes of a reservation. 
+
+    """
+    try:
+        controller.create_reservation(reservation.model_dump())
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'reservations' --- {e}")
+    return {}
+
+@app.put("/reservations", tags=["Reservations"])
+async def put_reservation(reservation: r.Reservation_update, api_key: str = Security(get_api_key)):
+    """
+    This function will allow you to update a reservation in the database
+
+    Parameters
+    ----------
+    Body : (JSON) It's a JSON with the atributes of a reservation. 
+
+    """
+    try:
+        controller.update_reservation(reservation.model_dump())
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'reservations' --- {e}")
+    return {}
+
 @app.get("/reservations/all", tags=["Reservations"])
 async def get_reservations(api_key: str = Security(get_api_key)):
     """
@@ -89,7 +153,7 @@ async def get_reservations(api_key: str = Security(get_api_key)):
     return controller.get_all_reservations()
 
 # ------------------------------------ Parkings ------------------------------------
-@app.post("/parkings/", tags=["Parkings"])
+@app.post("/parkings", tags=["Parkings"])
 async def post_parking(parking: r.Parking, api_key: str = Security(get_api_key)):
     """
     This function will allow you to create and store a new parking in the database
@@ -101,6 +165,22 @@ async def post_parking(parking: r.Parking, api_key: str = Security(get_api_key))
     """
     try:
         controller.create_parking(parking.model_dump())
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'parkings' --- {e}")
+    return {}
+
+@app.put("/parkings", tags=["Reservations"])
+async def put_parking(parking: r.Parking_update, api_key: str = Security(get_api_key)):
+    """
+    This function will allow you to update a parking in the database
+
+    Parameters
+    ----------
+    Body : (JSON) It's a JSON with the atributes of a parking. 
+
+    """
+    try:
+        controller.update_parking(parking.model_dump())
     except Exception as e:
         raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'parkings' --- {e}")
     return {}
