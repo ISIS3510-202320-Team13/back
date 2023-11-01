@@ -56,11 +56,11 @@ def read_root(api_key: str = Security(get_api_key)):
 @app.post("/users", tags=["Reservations"])
 async def post_reservation(user: r.Usuarios, api_key: str = Security(get_api_key)):
     """
-    This function will allow you to create and store a new reservation in the database
+    This function will allow you to create and store a new user in the database
 
     Parameters
     ----------
-    Body : (JSON) It's a JSON with the atributes of a parking. 
+    Body : (JSON) It's a JSON with the atributes of a user. 
 
     """
     try:
@@ -72,11 +72,11 @@ async def post_reservation(user: r.Usuarios, api_key: str = Security(get_api_key
 @app.put("/users", tags=["Users"])
 async def put_reservation(user: r.Usuarios_update, api_key: str = Security(get_api_key)):
     """
-    This function will allow you to create and store a new reservation in the database
+    This function will allow you to update an user in the database
 
     Parameters
     ----------
-    Body : (JSON) It's a JSON with the atributes of a parking. 
+    Body : (JSON) It's a JSON with the atributes of a user. 
 
     """
     try:
@@ -114,7 +114,7 @@ async def post_reservation(reservation: r.Reservation, api_key: str = Security(g
 
     Parameters
     ----------
-    Body : (JSON) It's a JSON with the atributes of a parking. 
+    Body : (JSON) It's a JSON with the atributes of a reservation. 
 
     """
     try:
@@ -126,11 +126,11 @@ async def post_reservation(reservation: r.Reservation, api_key: str = Security(g
 @app.put("/reservations", tags=["Reservations"])
 async def put_reservation(reservation: r.Reservation_update, api_key: str = Security(get_api_key)):
     """
-    This function will allow you to create and store a new reservation in the database
+    This function will allow you to update a reservation in the database
 
     Parameters
     ----------
-    Body : (JSON) It's a JSON with the atributes of a parking. 
+    Body : (JSON) It's a JSON with the atributes of a reservation. 
 
     """
     try:
@@ -172,7 +172,7 @@ async def post_parking(parking: r.Parking, api_key: str = Security(get_api_key))
 @app.put("/parkings", tags=["Reservations"])
 async def put_parking(parking: r.Parking_update, api_key: str = Security(get_api_key)):
     """
-    This function will allow you to create and store a new reservation in the database
+    This function will allow you to update a parking in the database
 
     Parameters
     ----------
