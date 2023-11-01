@@ -26,6 +26,7 @@ def add_document(colection:str, new_document:dict):
     db.collection(colection).document(uid).set(new_document)
     return True
 
-def update_document(colection:str, uid:str, updated_document:dict):
-    db.collection(colection).document(uid).set(updated_document)
+def update_document(colection:str, updated_document:dict):
+    uid = updated_document.pop('uid')
+    db.collection(colection).document(uid).set(updated_document, merge=True)
     return True
