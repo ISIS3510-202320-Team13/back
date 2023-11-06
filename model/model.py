@@ -90,7 +90,6 @@ def get_distance_by_latlon(lat_orig, lon_orig, lat_dest, lon_des):
 # ------------------------------------ Validation methods  ------------------------------------
 
 def validate_parkings(parking:dict):
-    print(parking)
 
     location = geolocator.geocode(parking['direccion'])
     calculated_latitude = location.latitude 
