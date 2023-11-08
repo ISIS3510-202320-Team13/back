@@ -2,4 +2,4 @@
 parkez.json
 api_keys.py
 utils/key_mail.py
-utils/key_mail.py
+*.pyc

@@ -106,7 +106,7 @@ def validate_parkings(parking:dict):
     if ((parking['availabilityCars'] < 0) or (parking['availabilityMotorcycle'] < 0) or (parking['price'] < 0) or (parking['rating'] < 0.0)):
         raise Exception("Numbers should not be negative")
     
-    if parking['name'] == "":
+    if (parking['name'] == "") or (parking['name'] == "string"):
         raise Exception("Name should not be an empty string")
 
     location = GeoPoint(latitude, longitude)
