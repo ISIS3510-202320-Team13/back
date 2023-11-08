@@ -27,6 +27,7 @@ class Reservation(BaseModel):
     parking: str
     status: str
     user: str
+    time_to_reserve: float 
     uid:str | None = None
 
 class Usuarios(BaseModel):
@@ -34,6 +35,7 @@ class Usuarios(BaseModel):
     email: str
     name: str
     picture: str
+    type: int
     uid:str | None = None
 
 class Parking_update(BaseModel):
@@ -53,6 +55,7 @@ class Reservation_update(BaseModel):
     parking: str | None = None
     status: str | None = None
     user: str | None = None
+    time_to_reserve: float | None = None
     uid:str
 
 class Usuarios_update(BaseModel):
@@ -60,4 +63,5 @@ class Usuarios_update(BaseModel):
     email: str | None = None
     name: str | None = None
     picture: str | None = None
+    type: int | None = None
     uid:str
