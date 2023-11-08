@@ -1,3 +1,13 @@
+"""
+File: request_objects.py
+* @author Juan Lugo Sánchez
+* jd.lugo@uniandes.edu.co
+
+Here you can find the groups of the docs route
+to group a method into one of this you should change the tag "Users" at main.py -- @app.put("/users", tags=["Users"])
+indicate the type of data required in the body of the JSON and if it's required using '| None = None'
+"""
+
 from pydantic import BaseModel
 
 class Parking(BaseModel):
