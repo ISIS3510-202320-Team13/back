@@ -57,13 +57,14 @@ def update_user(user_p:dict):
 def get_user_by_uid(uid:str) -> dict:
 
     user = model.get_document('users', uid)
+
     if "Reservations" in user:
         reservation_list = user['Reservations']
         reservations = get_reservation_list(reservation_list)
         new_user = format.dto_user(user, reservations)
     else:
         new_user = user
-    
+
     return new_user
 
 # ------------------------------------ Parkings ------------------------------------

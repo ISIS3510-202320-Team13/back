@@ -6,6 +6,7 @@ class Choice:
     price = 0
 
     def get_choosed(self):
+        print(self.compared)
         choice = self.compared.pop(self.choosed_id)
 
         choice['uid'] = self.choosed_id
@@ -27,10 +28,9 @@ class Choice:
             self.choosed_id = uid
             self.rate = t_rate
             self.price = t_price
-            
+            self.compared[uid] = docdic
             
         else:
-            
             if dist <= 500:
                 if (self.rate == -1) or (self.rate < (t_rate)):
                     self.rate = t_rate
