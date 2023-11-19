@@ -5,6 +5,11 @@ from utils import choice
 # ------------------------------------ Reservations ------------------------------------
 
 def create_reservation(reservation_p:dict):
+    parking = get_parking_by_uid(reservation_p['parking'])
+
+    cost = parking['price']*reservation_p['time_to_reserve']
+    reservation_p['cost'] = cost
+
     model.add_document('reservations', reservation_p)
     return None
 
@@ -93,6 +98,10 @@ def get_parkings_by_latlon(lat: float, lon: float):
     ret = c.get_choosed()
 
     return ret
+
+def get_parking_by_uid(uid:str) -> dict:
+    parking = model.get_document('parkings', uid)
+    return parking
 
 # ------------------------------------ Utils ------------------------------------
 def get_raw_collection(collection: str):

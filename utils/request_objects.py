@@ -21,7 +21,6 @@ class Parking(BaseModel):
     uid:str | None = None
 
 class Reservation(BaseModel):
-    cost: int
     entry_time: str
     exit_time: str
     parking: str
@@ -49,7 +48,6 @@ class Parking_update(BaseModel):
     uid:str
 
 class Reservation_update(BaseModel):
-    cost: int | None = None
     entry_time: str | None = None
     exit_time: str | None = None
     parking: str | None = None
