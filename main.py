@@ -300,3 +300,21 @@ async def get_address_bylatlon(lat: str, lon: str, api_key: str = Security(get_a
 
     """
     return controller.get_address_by_latlon(lat, lon)
+
+@app.get("/stats/all", tags=["Utils"])
+async def get_statistics(api_key: str = Security(get_api_key)):
+    """
+    This function will allow you get an address near to a location based on it's coodinates
+
+    Parameters
+    ----------
+    lat : (str) It's the latitude of the location. \n
+    lon : (str) It's the longitude of the location.
+
+    Returns
+    -------
+    JSON
+        The address
+
+    """
+    return controller.get_stats()

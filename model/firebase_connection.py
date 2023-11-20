@@ -24,7 +24,7 @@ def get_documents_filtered(collection:str, atribute:str, compare:str, value):
 def add_document(colection:str, new_document:dict):
     uid = new_document.pop('uid')
     db.collection(colection).document(uid).set(new_document)
-    return True
+    return uid
 
 def update_document(colection:str, updated_document:dict):
     uid = updated_document.pop('uid')

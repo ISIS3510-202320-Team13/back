@@ -1,6 +1,6 @@
 from model import model
 from dto import dto as format
-from utils import choice
+from utils import choice, emails_sender
 
 # ------------------------------------ Reservations ------------------------------------
 
@@ -10,7 +10,14 @@ def create_reservation(reservation_p:dict):
     cost = parking['price']*reservation_p['time_to_reserve']
     reservation_p['cost'] = cost
 
-    model.add_document('reservations', reservation_p)
+    uid = model.add_document('reservations', reservation_p)
+    user = get_raw_document('users', reservation_p['user'])
+
+    user['Reservations'].append(uid)
+    user['uid'] = reservation_p['user']
+    update_user(user)
+
+    emails_sender.send_email(user['email'],uid,parking['name'], reservation_p['entry_time'], reservation_p['time_to_reserve'], cost, user['name'])
     return None
 
 def update_reservation(reservation_p:dict):
@@ -120,4 +127,6 @@ def get_custom_query(collection:str, atribute:str, comparison:str, value:str, ty
 
 def get_address_by_latlon(lat: str, lon: str):
     return model.get_address_by_latlon(lat, lon)
-    
+
+def get_stats():
+    return model.fixed_stats()

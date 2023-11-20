@@ -1,19 +1,17 @@
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import key_mail
+from utils import key_mail
 
-def send_email(receiver_email, uid_reservation, parking_name, start_time, end_time, cost):
+def send_email(receiver_email, uid_reservation, parking_name, start_time, duratiom, cost, name):
 
   sender_email = "losarquipanitas@gmail.com"
   password = key_mail.password
 
   message = MIMEMultipart("alternative")
-  message["Subject"] = "Your reservation "
+  message["Subject"] = "Your reservation with ParkEz"
   message["From"] = sender_email
   message["To"] = receiver_email
-
-  # Create the plain-text and HTML version of your message
 
   html = """\
   <!DOCTYPE html>
@@ -70,36 +68,24 @@ def send_email(receiver_email, uid_reservation, parking_name, start_time, end_ti
   </html>
   """
 
-  # Define a dictionary with the values to replace the placeholders
   reservation_info = {
-      "customer_name": "Juan Camilo",
-      "reservation_id": "v5ntfmjvLZuu6eAvuU0X",
-      "parking_space": "CityParking",
-      "date_and_time": "2023-11-17 08:15 AM",
-      "duration": "3 hours",
-      "total_cost": "48000.00",
+      "customer_name": name,
+      "reservation_id": uid_reservation,
+      "parking_space": parking_name,
+      "date_and_time": start_time,
+      "duration": duratiom,
+      "total_cost": cost,
       "phone_number": "01 8000 - ParkEz",
       "email_address": "help@parkez.com",
   }
 
-  # Format the HTML string with the reservation_info using format method
   formatted_html = html.format(**reservation_info)
-
-  # Turn these into plain/html MIMEText objects
-  #part1 = MIMEText(text, "plain")
   part2 = MIMEText(formatted_html, "html")
-
-  # Add HTML/plain-text parts to MIMEMultipart message
-  # The email client will try to render the last part first
-  #message.attach(part1)
   message.attach(part2)
 
-  # Create secure connection with server and send email
   context = ssl.create_default_context()
   with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
       server.login(sender_email, password)
       server.sendmail(
           sender_email, receiver_email, message.as_string()
       )
-
-send_email("jd.lugo@uniandes.edu.co", None, None, None, None, None)

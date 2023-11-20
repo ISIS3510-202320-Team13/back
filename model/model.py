@@ -1,6 +1,7 @@
 from model import firebase_connection as firebase
 
 import uuid
+import random
 from haversine import haversine, Unit
 from geopy.geocoders import Nominatim
 from google.cloud.firestore import GeoPoint
@@ -21,10 +22,10 @@ def add_document(collection:str, new_document:dict):
     if collection == 'parkings':
         new_document = validate_parkings(new_document)
     elif collection == 'reservations':
-        #new_document = validate_parkings(new_document)
+        new_document['uid'] = str(uuid.uuid4())
         pass
-    firebase.add_document(collection, new_document)
-    return None
+    uid = firebase.add_document(collection, new_document)
+    return uid
 
 def update_document(collection:str, new_document:dict):
     firebase.update_document(collection, new_document)
@@ -64,6 +65,17 @@ def get_documents_filtered(collection:str, atribute:str, comparison:str, value:s
     if user_dict is None:
         raise Exception(f"There is no documents with {atribute} {comparison} {value}")
     return user_dict
+
+# ------------------------------------ Stats ------------------------------------
+
+def fixed_stats() -> dict:
+    r_list = []
+    inic_n = random.randint(11, 19)
+    for _ in range(50):
+        r_list.append(inic_n + random.randint(-3, 3))
+
+    r_doc = {"stats":r_list}
+    return r_doc
 
 # ------------------------------------ Parse ------------------------------------
 
