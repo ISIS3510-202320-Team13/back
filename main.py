@@ -3,6 +3,7 @@ from utils import request_objects as r
 from utils import tags
 from fastapi import FastAPI, HTTPException, Security
 from fastapi.security import APIKeyHeader
+from starlette.responses import FileResponse 
 
 import api_keys as keys
 
@@ -163,7 +164,8 @@ async def get_reservations(uid: str):
         The list of reservations
 
     """
-    return controller.update_reservation({"uid": uid, "status": "Active"})
+    controller.update_reservation({"uid": uid, "status": "Active"})
+    return FileResponse('index.html')
 # ------------------------------------ Parkings ------------------------------------
 @app.post("/parkings", tags=["Parkings"])
 async def post_parking(parking: r.Parking, api_key: str = Security(get_api_key)):
