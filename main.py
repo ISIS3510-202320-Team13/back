@@ -152,6 +152,18 @@ async def get_reservations(api_key: str = Security(get_api_key)):
     """
     return controller.get_all_reservations()
 
+@app.get("/reservations/confirmation/{uid}", tags=["Reservations"])
+async def get_reservations(uid: str):
+    """
+    This function will allow you get a complete collection of reservations in the database
+ 
+    Returns
+    -------
+    JSON
+        The list of reservations
+
+    """
+    return controller.update_reservation({"uid": uid, "status": "Active"})
 # ------------------------------------ Parkings ------------------------------------
 @app.post("/parkings", tags=["Parkings"])
 async def post_parking(parking: r.Parking, api_key: str = Security(get_api_key)):
