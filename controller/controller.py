@@ -70,9 +70,8 @@ def get_user_by_uid(uid:str) -> dict:
 
     user = model.get_document('users', uid)
 
-    if "Reservations" in user:
-        reservation_list = user['Reservations']
-        reservations = get_reservation_list(reservation_list)
+    reservations = get_custom_query('reservations', 'user', 'equals', uid, type='str' ,format='reservations')
+    if reservations != {}:
         new_user = format.dto_user(user, reservations)
     else:
         new_user = user
