@@ -164,7 +164,7 @@ async def get_reservations(uid: str):
         The list of reservations
 
     """
-    controller.update_reservation({"uid": uid, "status": "Active"})
+    controller.update_reservation(uid,{"status": "Active"})
     return FileResponse('index.html')
 # ------------------------------------ Parkings ------------------------------------
 @app.post("/parkings", tags=["Parkings"])
