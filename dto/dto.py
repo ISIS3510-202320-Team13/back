@@ -8,8 +8,6 @@ def dto_reservation(raw_reservation:dict, raw_parking:dict, user_includes:bool, 
     
     if not user_includes:
         raw_reservation.pop('user')  
-    else:
-        raw_reservation["user"] = user  
         
     raw_reservation["parking"] = raw_parking
 

@@ -48,11 +48,11 @@ def get_reservation_list(reservations:list):
     
     return ret_dict
 
-def get_reservation_by_uid(uid:str) -> dict:
+def get_reservation_by_uid(uid:str, includes_user = False) -> dict:
     
     reservation = model.get_document('reservations', uid)
     parking_details = model.get_document('parkings', reservation["parking"])
-    new_reservation = format.dto_reservation(reservation, parking_details, False)
+    new_reservation = format.dto_reservation(reservation, parking_details, includes_user)
 
     return new_reservation
 
@@ -110,6 +110,12 @@ def get_parking_by_uid(uid:str) -> dict:
     return parking
 
 # ------------------------------------ Utils ------------------------------------
+def send_email_comfirmation(uid:str):
+    reservation_p = get_reservation_by_uid(uid, includes_user=True)
+    print(reservation_p)
+    user = get_user_by_uid(reservation_p['user'])
+    emails_sender.send_email(user['email'],uid,reservation_p['parking']['name'], reservation_p['entry_time'], reservation_p['time_to_reserve'], reservation_p['cost'], user['name'])
+
 def get_raw_collection(collection: str):
     return model.get_collection(collection)
 

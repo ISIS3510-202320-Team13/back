@@ -231,6 +231,27 @@ async def get_parkings_bylatlon(lat: float, lon: float, api_key: str = Security(
     return controller.get_parkings_by_latlon(lat, lon)
 
 # ------------------------------------ Utils ------------------------------------
+@app.get("/confirmation/{uid}/", tags=["Utils"])
+async def send_confirmation_email(uid: str, api_key: str = Security(get_api_key)):
+    """
+    This function will allow you get a complete collection as is stored in the database
+
+    Parameters
+    ----------
+    collection : (str) Must be an existent collection of the DB.
+ 
+    Returns
+    -------
+    JSON
+        The raw list of documents
+
+    """
+    try:
+        response = controller.send_email_comfirmation(uid)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Looks like something went wrong with'/raw/collection/{uid}' --- {e}")
+    return response
+
 @app.get("/raw/collection/{collection}", tags=["Utils"])
 async def get_raw_collection(collection: str, api_key: str = Security(get_api_key)):
     """
