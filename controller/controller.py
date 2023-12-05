@@ -22,7 +22,8 @@ def create_reservation(reservation_p:dict):
 
 def update_reservation(uid:str, reservation_p:dict):
     print(reservation_p)
-    for key in reservation_p:
+    copy = reservation_p.copy()
+    for key in copy:
         if reservation_p[key] == None:
             reservation_p.pop(key)
     reservation_p['uid'] = uid
