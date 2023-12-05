@@ -20,7 +20,8 @@ def create_reservation(reservation_p:dict):
     emails_sender.send_email(user['email'],uid,parking['name'], reservation_p['entry_time'], reservation_p['time_to_reserve'], cost, user['name'])
     return None
 
-def update_reservation(reservation_p:dict):
+def update_reservation(uid:str, reservation_p:dict):
+    reservation_p['uid'] = uid
     model.update_document('reservations', reservation_p)
     return None
 

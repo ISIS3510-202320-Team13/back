@@ -124,8 +124,8 @@ async def post_reservation(reservation: r.Reservation, api_key: str = Security(g
         raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'reservations' --- {e}")
     return {}
 
-@app.put("/reservations", tags=["Reservations"])
-async def put_reservation(reservation: r.Reservation_update, api_key: str = Security(get_api_key)):
+@app.put("/reservations/{uid}", tags=["Reservations"])
+async def put_reservation(uid: str, reservation: r.Reservation_update, api_key: str = Security(get_api_key)):
     """
     This function will allow you to update a reservation in the database
 
@@ -135,7 +135,7 @@ async def put_reservation(reservation: r.Reservation_update, api_key: str = Secu
 
     """
     try:
-        controller.update_reservation(reservation.model_dump())
+        controller.update_reservation(uid, reservation.model_dump())
     except Exception as e:
         raise HTTPException(status_code=404, detail=f"Looks like something went wrong with post at 'reservations' --- {e}")
     return {}

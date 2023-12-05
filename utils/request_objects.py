@@ -54,7 +54,6 @@ class Reservation_update(BaseModel):
     status: str | None = None
     user: str | None = None
     time_to_reserve: float | None = None
-    uid:str
 
 class Usuarios_update(BaseModel):
     reservations: list | None = None
