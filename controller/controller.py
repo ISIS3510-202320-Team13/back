@@ -112,7 +112,6 @@ def get_parking_by_uid(uid:str) -> dict:
 # ------------------------------------ Utils ------------------------------------
 def send_email_comfirmation(uid:str):
     reservation_p = get_reservation_by_uid(uid, includes_user=True)
-    print(reservation_p)
     user = get_user_by_uid(reservation_p['user'])
     emails_sender.send_email(user['email'],uid,reservation_p['parking']['name'], reservation_p['entry_time'], reservation_p['time_to_reserve'], reservation_p['cost'], user['name'])
 
